@@ -6,12 +6,13 @@ export default{
   },
   data(){
     return{
-      isPoke : false,
       pokemonInfo : null
     }
   },
   methods: {
-    
+    handlePokemonInfo(data){
+      this.pokemonInfo = data;
+    }
   }
 }
 </script>
@@ -21,8 +22,11 @@ export default{
    <div class="container" style="width: 100%;">
       <div class="ms_pokedex" style="margin: 0 auto; background-color: aliceblue; width: 75%; height: 700px; display: flex;">
         <div class="ms_pokedex-l" style="width: 50%; background-color: darkred; color: white; display: flex; flex-direction: column;">
-          <SearchCustom /> <br> 
-          Immagine Pokémon <br>
+          <SearchCustom @pokemon-info="handlePokemonInfo "/> 
+          <div class="ms_poke-image" style="width: 225px; height: 225px;">
+            <img :src="pokemonInfo.sprites.front_default" alt="Immagine Pokemon" style="width: 100%;" v-if="pokemonInfo">
+            <img src="../src/assets/pixel-pokeball-pixel-art-pokemon-pokeball-nintendo-8bit_grande.webp" alt="Placeholder Image" style="width: 100%;" v-else>
+          </div> <br>
           Informazioni Pokémon <br>
         </div>
         <div class="ms_pokedex-r" style="width: 50%; background-color: brown; color: white;">

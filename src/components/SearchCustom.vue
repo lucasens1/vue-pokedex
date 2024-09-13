@@ -10,7 +10,7 @@ export default {
     async getPokemon() {
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${this.pokeName}/`
+          `https://pokeapi.co/api/v2/pokemon/${this.pokeName.toLowerCase()}/`
         );
         if (!response.ok) {
           throw new Error("Pokemon non trovato");
@@ -18,9 +18,8 @@ export default {
 
         const data = await response.json();
         this.$emit('pokemon-info', data);
-        console.log(this.pokemonInfo);
+        this.errorMessage = null;
       } catch (error) {
-        this.pokemonInfo = null;
         this.errorMessage = error.message;
       }
     },
