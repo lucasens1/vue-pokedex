@@ -73,7 +73,7 @@ export default {
         <div v-if="pokemonInfo" class="ms_poke-card">
           <h3 class="ms_text-center">{{ firstL(pokemonInfo.name) }}</h3>
           <div v-for="pokeStat in pokemonInfo.stats" class="battle-stats">
-            <p>{{ firstL(pokeStat.stat.name) }} : {{ pokeStat.base_stat }}</p>
+            <p> <strong>{{ firstL(pokeStat.stat.name) }}</strong> : {{ pokeStat.base_stat }}</p>
             <div class="stat-bar">
               <div
                 class="stat-bar-fill"
@@ -83,23 +83,33 @@ export default {
           </div>
         </div>
         <div v-else>
-          <p>Inserisci un nome Pokémon per vedere le informazioni.</p>
+          <p class="pt-24">Inserisci un nome Pokémon per vedere le informazioni.</p>
         </div>
       </div>
 
       <div class="ms_pokedex-r">
-        La mia Squadra Pokémon, salvata in localStorage
+        <p class="pt-24">La mia Squadra Pokémon : </p>
       </div>
     </div>
   </div>
 </template>
 
 <style>
+.pt-24{
+  padding: 24px 24px;
+}
 .ms_text-center{
   text-align: center;
 }
 .ms_poke-card{
-  padding: 24px;
+  margin: 16px;
+  border-radius: 16px;
+  padding: 16px;
+  background-color: #ccbebe7d;
+}
+
+.battle-stats > p{
+  padding-top: 12px;
 }
 /* Contenitore della barra */
 .stat-bar {
@@ -149,8 +159,9 @@ export default {
 .ms_pokedex {
   margin: 0 auto;
   border: 10px solid black;
-  width: 75%;
-  height: 700px;
+  border-radius: 24px;
+  width: 80%;
+  min-height: 700px;
   display: flex;
 }
 
@@ -160,11 +171,15 @@ export default {
   color: white;
   display: flex;
   flex-direction: column;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .ms_pokedex-r {
   width: 50%;
   background-color: brown;
   color: white;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 </style>
