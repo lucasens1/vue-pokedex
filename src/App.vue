@@ -11,6 +11,8 @@ export default {
       intervalId: null,
     };
   },
+  computed : {
+  },
   methods: {
     handlePokemonInfo(data) {
       this.pokemonInfo = data;
@@ -32,6 +34,10 @@ export default {
         }
       }, 1500);
     },
+    statBar(statVal){
+      const maxStat = 100;
+      return (statVal / maxStat) * 100 + '%';
+    }
   },
   beforeDestroy() {
     if (this.intervalId) {
@@ -42,7 +48,6 @@ export default {
 </script>
 
 <template>
-  <h1>App.vue... https://pokeapi.co/api/v2/pokemon/{id or name}/</h1>
   <div class="container" style="width: 100%">
     <div
       class="ms_pokedex"
@@ -66,15 +71,19 @@ export default {
       >
         <SearchCustom @pokemon-info="handlePokemonInfo" />
 
-        <div class="ms_poke-image" style="width: 225px; height: 225px;">
+        <div class="ms_poke-image" style="display: flex; align-items: center; justify-content: center; background-color: white;">
           <img :src="currentSprite" alt="Immagine Pokemon" v-if="pokemonInfo">
           <img src="../src/assets/pixel-pokeball-pixel-art-pokemon-pokeball-nintendo-8bit_grande.webp" alt="Placeholder Image" style="width: 100%;" v-else>
         </div>
 
         <div v-if="pokemonInfo">
           <p>Nome: {{ pokemonInfo.name }}</p>
-          <div v-for="pokeStat in pokemonInfo.stats">
-            <p>{{ pokeStat.stat.name }}</p> <span>{{ pokeStat.base_stat }}</span>
+          <div v-for="pokeStat in pokemonInfo.stats" class="battle-stats">
+            <p>{{ pokeStat.stat.name }}</p> 
+            <p>{{ pokeStat.base_stat }}</p>
+            <div class="stat-bar">
+              <div class="stat-bar-fill" :style="{ width : statBar(pokeStat.base_stat)}"></div>
+            </div>
           </div>
         </div>
         <div v-else>
@@ -91,4 +100,22 @@ export default {
   </div>
 </template>
 
-<style></style>
+<style>
+/* Contenitore della barra */
+.stat-bar {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 16px;
+  transition: 0.7s all;
+}
+
+/* Parte riempita della barra */
+.stat-bar-fill {
+  height: 100%;
+  background-color: #4caf50; 
+  width: 0;
+  transition: width 0.5s ease;
+}
+</style>
