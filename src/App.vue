@@ -65,7 +65,7 @@ export default {
         "
       >
         <SearchCustom @pokemon-info="handlePokemonInfo" />
-        
+
         <div class="ms_poke-image" style="width: 225px; height: 225px;">
           <img :src="currentSprite" alt="Immagine Pokemon" v-if="pokemonInfo">
           <img src="../src/assets/pixel-pokeball-pixel-art-pokemon-pokeball-nintendo-8bit_grande.webp" alt="Placeholder Image" style="width: 100%;" v-else>
@@ -73,8 +73,9 @@ export default {
 
         <div v-if="pokemonInfo">
           <p>Nome: {{ pokemonInfo.name }}</p>
-          <p>Altezza: {{ pokemonInfo.height }}</p>
-          <p>Peso: {{ pokemonInfo.weight }}</p>
+          <div v-for="pokeStat in pokemonInfo.stats">
+            <p>{{ pokeStat.stat.name }}</p> <span>{{ pokeStat.base_stat }}</span>
+          </div>
         </div>
         <div v-else>
           <p>Inserisci un nome Pokémon per vedere le informazioni.</p>
