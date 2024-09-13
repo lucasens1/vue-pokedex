@@ -30,7 +30,7 @@ export default {
 <template>
   <div class="ms_search">
     <input type="text" name="poke-name" v-model="pokeName" />
-    <button @click="getPokemon" style="display: flex; align-items: center; gap: 6px;">Cerca <a href="https://emoji.gg/emoji/pokeball"><img src="https://cdn3.emoji.gg/emojis/pokeball.png" width="20px" alt="pokeball"></a></button>
+    <button @click="getPokemon" style="display: flex; align-items: center; gap: 6px;">Cerca <img src="https://cdn3.emoji.gg/emojis/pokeball.png" width="20px" alt="pokeball"></button>
 
     <p v-if="errorMessage">{{ errorMessage }}</p>
   </div>
