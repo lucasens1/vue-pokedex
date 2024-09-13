@@ -9,7 +9,12 @@ export default {
       pokemonInfo: null,
       currentSprite: null,
       intervalId: null,
+      team: []
     };
+  },
+  created() {
+    // Carica la squadra dal LocalStorage quando il componente è creato
+    this.team = JSON.parse(localStorage.getItem('pokemonTeam')) || [];
   },
   computed: {},
   methods: {
@@ -37,9 +42,23 @@ export default {
       const maxStat = 100;
       return (statVal / maxStat) * 100 + "%";
     },
-    firstL(word){
+    firstL(word) {
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
+    },
+    addToTeam() {
+      if (!this.pokemonInfo) {
+        console.error("Nessun Pokémon selezionato");
+        return;
+      }
+
+      // Aggiungi il Pokémon alla squadra locale
+      this.team.push(this.pokemonInfo);
+
+      // Salva la squadra aggiornata nel LocalStorage
+      localStorage.setItem("pokemonTeam", JSON.stringify(this.team));
+
+      console.log("Pokémon aggiunto alla squadra");
+    },
   },
   beforeDestroy() {
     if (this.intervalId) {
@@ -73,7 +92,10 @@ export default {
         <div v-if="pokemonInfo" class="ms_poke-card">
           <h3 class="ms_text-center">{{ firstL(pokemonInfo.name) }}</h3>
           <div v-for="pokeStat in pokemonInfo.stats" class="battle-stats">
-            <p> <strong>{{ firstL(pokeStat.stat.name) }}</strong> : {{ pokeStat.base_stat }}</p>
+            <p>
+              <strong>{{ firstL(pokeStat.stat.name) }}</strong> :
+              {{ pokeStat.base_stat }}
+            </p>
             <div class="stat-bar">
               <div
                 class="stat-bar-fill"
@@ -81,34 +103,62 @@ export default {
               ></div>
             </div>
           </div>
+          <p class="ms_text-center ms_btn" @click="addToTeam">Aggiungi Pokemon</p>
         </div>
         <div v-else>
-          <p class="pt-24">Inserisci un nome Pokémon per vedere le informazioni.</p>
+          <p class="pt-24">
+            Inserisci un nome Pokémon per vedere le informazioni.
+          </p>
         </div>
       </div>
 
       <div class="ms_pokedex-r">
-        <p class="pt-24">La mia Squadra Pokémon : </p>
+        <div v-if="team.length">
+          <h3 class="ms_text-center">La mia Squadra Pokémon</h3>
+          <div class="ms_d-flex" v-for="pokemon in team" :key="pokemon.id">
+            <p>{{ firstL(pokemon.name) }}</p>
+            <img
+              :src="pokemon.sprites.front_default"
+              alt="Immagine Pokémon"
+              style="width: 110px"
+            />
+          </div>
+        </div>
+        <div v-else>
+          Aggiungi un Pokémon al tuo team!
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style>
-.pt-24{
+.ms_d-flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ms_btn {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: rgba(49, 45, 45, 0.709);
+  border-radius: 24px;
+  cursor: pointer;
+}
+.pt-24 {
   padding: 24px 24px;
 }
-.ms_text-center{
+.ms_text-center {
   text-align: center;
 }
-.ms_poke-card{
+.ms_poke-card {
   margin: 16px;
   border-radius: 16px;
   padding: 16px;
   background-color: #ccbebe7d;
 }
 
-.battle-stats > p{
+.battle-stats > p {
   padding-top: 12px;
 }
 /* Contenitore della barra */
@@ -176,6 +226,7 @@ export default {
 }
 
 .ms_pokedex-r {
+  padding: 20px;
   width: 50%;
   background-color: brown;
   color: white;

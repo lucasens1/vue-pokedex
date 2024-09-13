@@ -47,7 +47,7 @@ export default {
 
 .ms_search > input,
 .ms_search > button {
-  padding: 10px;
+  padding: 12px;
   border-radius: 20px;
   transition: 0.7s;
   border: none;
